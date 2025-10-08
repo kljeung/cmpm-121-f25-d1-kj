@@ -11,6 +11,8 @@ document.body.innerHTML = `
 const button = document.getElementById("circleButton");
 const output = document.getElementById("output");
 
+console.log("this is for section :)");
+
 if (button && output) {
   button.addEventListener("click", () => {
     output.textContent = "wow you actually clicked this..";

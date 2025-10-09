@@ -18,7 +18,15 @@ if (button && output) {
   });
 }
 
-setInterval(() => {
-  roaches++;
-  if (output) output.textContent = `Roaches invited: ${roaches}`;
-}, 1000);
+let lastTime = 0;
+function update(currentTime: number) {
+  const elapsed = currentTime - lastTime;
+  if (elapsed >= 1000) {
+    roaches++;
+    output!.textContent = `Roaches invited: ${roaches}`;
+    lastTime = currentTime;
+  }
+  requestAnimationFrame(update);
+}
+requestAnimationFrame(update);
+

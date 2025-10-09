@@ -3,18 +3,33 @@ import "./style.css";
 document.body.innerHTML = `
   <h1> Roachfiestation </h1>
   <button id = "button">🪳</button>
+  <button id="buy" disabled>Buy Upgrade (+1/sec) — Cost: 10</button>
   <div id = "output">Roaches invited: 0</div>
 `;
 
 const button = document.getElementById("button");
+const upgrade = document.getElementById("upgrade");
 const output = document.getElementById("output");
 
 let roaches = 0;
+let growth = 0;
 
 if (button && output) {
   button.addEventListener("click", () => {
     roaches++;
     output.textContent = `Roaches invited: ${roaches}`;
+    if (upgrade) upgrade.toggleAttribute("disabled", roaches < 10);
+  });
+}
+
+if (upgrade && output) {
+  upgrade.addEventListener("click", () => {
+    if (roaches >= 10) {
+      roaches -= 10;
+      growth += 1; // +1/sec per purchase
+      output.textContent = `Roaches invited: ${roaches}`;
+      upgrade.toggleAttribute("disabled", roaches < 10);
+    }
   });
 }
 

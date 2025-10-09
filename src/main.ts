@@ -12,7 +12,11 @@ const upgrade = document.getElementById("upgrade");
 const output = document.getElementById("output");
 
 let roaches = 0;
-let growth = 1;
+const growth = 1;
+
+function updateStats() {
+  roaches += growth;
+}
 
 if (button && output) {
   button.addEventListener("click", () => {
@@ -26,7 +30,7 @@ if (upgrade && output) {
   upgrade.addEventListener("click", () => {
     if (roaches >= 10) {
       roaches -= 10;
-      growth += 1; // +1/sec per purchase
+      updateStats;
       output.textContent = `Roaches invited: ${roaches}`;
       upgrade.toggleAttribute("disabled", roaches < 10);
     }
@@ -37,7 +41,7 @@ let lastTime = 0;
 function update(currentTime: number) {
   const elapsed = currentTime - lastTime;
   if (elapsed >= 1000) {
-    roaches += growth;
+    updateStats;
     output!.textContent = `Roaches invited: ${roaches}`;
     lastTime = currentTime;
   }

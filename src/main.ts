@@ -37,7 +37,7 @@ let lastTime = 0;
 function update(currentTime: number) {
   const elapsed = currentTime - lastTime;
   if (elapsed >= 1000) {
-    roaches++;
+    roaches += growth;
     output!.textContent = `Roaches invited: ${roaches}`;
     lastTime = currentTime;
   }

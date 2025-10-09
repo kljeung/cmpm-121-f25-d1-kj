@@ -12,7 +12,7 @@ const upgrade = document.getElementById("upgrade");
 const output = document.getElementById("output");
 
 let roaches = 0;
-let growth = 0;
+let growth = 1;
 
 if (button && output) {
   button.addEventListener("click", () => {

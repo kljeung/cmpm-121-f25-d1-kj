@@ -3,7 +3,7 @@ import "./style.css";
 document.body.innerHTML = `
   <h1> Roachfiestation </h1>
   <button id = "button">🪳</button>
-  <button id="buy" disabled>Buy Upgrade (+1/sec) — Cost: 10</button>
+  <button id="upgrade" disabled>Buy Upgrade (+1/sec) — Cost: 10</button>
   <div id = "output">Roaches invited: 0</div>
 `;
 

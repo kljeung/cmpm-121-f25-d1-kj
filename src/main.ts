@@ -83,6 +83,10 @@ function refreshUI() {
 
 if (button && output) {
   button.addEventListener("click", () => {
+    button.classList.add("shake");
+    button.addEventListener("animationend", () => {
+      button.classList.remove("shake");
+    }, { once: true });
     roaches++;
     refreshUI();
   });

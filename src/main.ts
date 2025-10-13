@@ -2,15 +2,19 @@ import "./style.css";
 
 document.body.innerHTML = `
   <h1> Roachfiestation </h1>
-  <button id = "button">🪳</button>
+  <button id="button">🪳</button>
   <button id="upgrade" disabled>Buy Upgrade (+1/sec) — Cost: 10</button>
   <div id="extra-upgrades"></div>
-  <div id = "output">Roaches invited: 0</div>
+  <div id="output">Roaches invited: 0</div>
+  <div id="status"></div>
 `;
 
 const button = document.getElementById("button");
 const upgrade = document.getElementById("upgrade");
 const output = document.getElementById("output");
+
+let roaches = 0;
+let growth = 1;
 
 const upgrades = [
   { id: "A", name: "Roach Egg", cost: 10, rate: 0.1, count: 0 },
@@ -22,7 +26,6 @@ const extraContainer = document.getElementById("extra-upgrades");
 if (extraContainer) {
   upgrades.forEach((u) => {
     const btn = document.createElement("button");
-    if (btn) btn.toggleAttribute("disabled", roaches < u.cost);
     btn.id = `upgrade-${u.id}`;
     btn.textContent =
       `Buy Upgrade ${u.name} (+${u.rate}/sec) — Cost: ${u.cost}`;
@@ -40,9 +43,6 @@ if (extraContainer) {
 }
 
 const statusDiv = document.getElementById("status");
-
-let roaches = 0;
-let growth = 1;
 
 function getTotalGrowth() {
   const upgradeGrowth = upgrades.reduce((sum, u) => sum + u.count * u.rate, 0);
@@ -93,7 +93,7 @@ function update(currentTime: number) {
   const elapsed = currentTime - lastTime;
   if (elapsed >= 1000) {
     const ticks = Math.floor(elapsed / 1000);
-    roaches += growth * ticks;
+    roaches += getTotalGrowth() * ticks;
     lastTime += ticks * 1000;
     refreshUI();
   }

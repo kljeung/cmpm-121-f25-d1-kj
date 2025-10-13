@@ -11,12 +11,63 @@ const button = document.getElementById("button");
 const upgrade = document.getElementById("upgrade");
 const output = document.getElementById("output");
 
+const upgrades = [
+  { id: "A", name: "Roach Egg", cost: 10, rate: 0.1, count: 0 },
+  { id: "B", name: "Roach Hoard", cost: 100, rate: 2.0, count: 0 },
+  { id: "C", name: "Roach Nest", cost: 1000, rate: 50, count: 0 },
+];
+
+const extraContainer = document.getElementById("extra-upgrades");
+if (extraContainer) {
+  upgrades.forEach((u) => {
+    const btn = document.createElement("button");
+    if (btn) btn.toggleAttribute("disabled", roaches < u.cost);
+    btn.id = `upgrade-${u.id}`;
+    btn.textContent =
+      `Buy Upgrade ${u.name} (+${u.rate}/sec) — Cost: ${u.cost}`;
+    btn.disabled = true;
+    extraContainer.appendChild(btn);
+
+    btn.addEventListener("click", () => {
+      if (roaches >= u.cost) {
+        roaches -= u.cost;
+        u.count++;
+        refreshUI();
+      }
+    });
+  });
+}
+
+const statusDiv = document.getElementById("status");
+
 let roaches = 0;
 let growth = 1;
 
+function getTotalGrowth() {
+  const upgradeGrowth = upgrades.reduce((sum, u) => sum + u.count * u.rate, 0);
+  return growth + upgradeGrowth;
+}
+
 function refreshUI() {
   if (output) output.textContent = `Roaches invited: ${roaches}`;
+
+  upgrades.forEach((u) => {
+    const btn = document.getElementById(`upgrade-${u.id}`);
+    if (btn) btn.toggleAttribute("disabled", roaches < u.cost);
+  });
+
   if (upgrade) upgrade.toggleAttribute("disabled", roaches < 10);
+
+  if (statusDiv) {
+    statusDiv.innerHTML = `
+      <p>Growth rate: ${getTotalGrowth().toFixed(2)} roaches/sec</p>
+      <p>Upgrades purchased: 
+        A: ${upgrades[0].count}, 
+        B: ${upgrades[1].count}, 
+        C: ${upgrades[2].count}
+      </p>
+    `;
+  }
 }
 
 if (button && output) {

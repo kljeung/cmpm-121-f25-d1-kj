@@ -69,20 +69,25 @@ const availableItems = [
 const extraContainer = document.getElementById("extra-upgrades");
 if (extraContainer) {
   availableItems.forEach((u) => {
+    const itemContainer = document.createElement("div");
+    itemContainer.classList.add("upgrade-item");
     const btn = document.createElement("button");
     btn.id = `upgrade-${u.id}`;
     btn.textContent = `Buy ${u.name} (+${u.rate}/sec) — Cost: ${
       u.cost.toFixed(2)
     }`;
     btn.disabled = true;
-    extraContainer.appendChild(btn);
-
+    itemContainer.appendChild(btn);
+    const desc = document.createElement("p");
+    desc.classList.add("upgrade-desc");
+    desc.textContent = u.description;
+    itemContainer.appendChild(desc);
+    extraContainer.appendChild(itemContainer);
     btn.addEventListener("click", () => {
       if (roaches >= u.cost) {
         roaches -= u.cost;
         u.count++;
         u.cost = +(u.cost * 1.15).toFixed(2);
-
         refreshUI();
       }
     });

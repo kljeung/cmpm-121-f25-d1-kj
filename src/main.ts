@@ -78,8 +78,8 @@ if (extraContainer) {
     }`;
     btn.disabled = true;
     itemContainer.appendChild(btn);
-    const desc = document.createElement("p");
-    desc.classList.add("upgrade-desc");
+    const desc = document.createElement("div");
+    desc.classList.add("upgrade-hover-desc");
     desc.textContent = u.description;
     itemContainer.appendChild(desc);
     extraContainer.appendChild(itemContainer);

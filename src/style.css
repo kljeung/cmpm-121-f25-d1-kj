@@ -60,3 +60,19 @@ h1 {
 .bounce {
   animation: bounce 0.4s ease-out;
 }
+
+.upgrade-hover-desc {
+  font-size: 0.9em;
+  color: #ccc;
+  background: #222;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.upgrade-item:hover .upgrade-hover-desc {
+  opacity: 1;
+}

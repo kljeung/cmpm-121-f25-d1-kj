@@ -4,6 +4,7 @@ document.body.innerHTML = `
   <h1> Roachfiestation </h1>
   <button id = "button">🪳</button>
   <button id="upgrade" disabled>Buy Upgrade (+1/sec) — Cost: 10</button>
+  <div id="extra-upgrades"></div>
   <div id = "output">Roaches invited: 0</div>
 `;
 

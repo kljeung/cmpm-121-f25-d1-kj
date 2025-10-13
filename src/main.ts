@@ -3,7 +3,6 @@ import "./style.css";
 document.body.innerHTML = `
   <h1> Roachfiestation </h1>
   <button id="button">🪳</button>
-  <button id="upgrade" disabled>Buy Upgrade (+1/sec) — Cost: 10</button>
   <div id="extra-upgrades"></div>
   <div id="output">Roaches invited: 0</div>
   <div id="status"></div>
@@ -18,8 +17,9 @@ let growth = 1;
 
 const upgrades = [
   { id: "A", name: "Roach Egg", cost: 10, rate: 0.1, count: 0 },
-  { id: "B", name: "Roach Hoard", cost: 100, rate: 2.0, count: 0 },
-  { id: "C", name: "Roach Nest", cost: 1000, rate: 50, count: 0 },
+  { id: "B", name: "Roach Larva", cost: 10, rate: 1.0, count: 0 },
+  { id: "C", name: "Roach Hoard", cost: 100, rate: 2.0, count: 0 },
+  { id: "D", name: "Roach Nest", cost: 1000, rate: 50, count: 0 },
 ];
 
 const extraContainer = document.getElementById("extra-upgrades");
@@ -27,8 +27,9 @@ if (extraContainer) {
   upgrades.forEach((u) => {
     const btn = document.createElement("button");
     btn.id = `upgrade-${u.id}`;
-    btn.textContent =
-      `Buy Upgrade ${u.name} (+${u.rate}/sec) — Cost: ${u.cost}`;
+    btn.textContent = `Buy ${u.name} (+${u.rate}/sec) — Cost: ${
+      u.cost.toFixed(2)
+    }`;
     btn.disabled = true;
     extraContainer.appendChild(btn);
 
@@ -36,6 +37,8 @@ if (extraContainer) {
       if (roaches >= u.cost) {
         roaches -= u.cost;
         u.count++;
+        u.cost = +(u.cost * 1.15).toFixed(2);
+
         refreshUI();
       }
     });
@@ -50,11 +53,16 @@ function getTotalGrowth() {
 }
 
 function refreshUI() {
-  if (output) output.textContent = `Roaches invited: ${roaches}`;
+  if (output) output.textContent = `Roaches invited: ${roaches.toFixed(1)}`;
 
   upgrades.forEach((u) => {
     const btn = document.getElementById(`upgrade-${u.id}`);
-    if (btn) btn.toggleAttribute("disabled", roaches < u.cost);
+    if (btn) {
+      btn.toggleAttribute("disabled", roaches < u.cost);
+      btn.textContent = `Buy ${u.name} (+${u.rate}/sec) — Cost: ${
+        u.cost.toFixed(2)
+      }`;
+    }
   });
 
   if (upgrade) upgrade.toggleAttribute("disabled", roaches < 10);
@@ -62,11 +70,13 @@ function refreshUI() {
   if (statusDiv) {
     statusDiv.innerHTML = `
       <p>Growth rate: ${getTotalGrowth().toFixed(2)} roaches/sec</p>
-      <p>Upgrades purchased: 
-        A: ${upgrades[0].count}, 
-        B: ${upgrades[1].count}, 
-        C: ${upgrades[2].count}
-      </p>
+      <p>Upgrades purchased:</p>
+      <ul>
+        <li>${upgrades[0].name}: ${upgrades[0].count}</li>
+        <li>${upgrades[1].name}: ${upgrades[1].count}</li>
+        <li>${upgrades[2].name}: ${upgrades[2].count}</li>
+        <li>${upgrades[3].name}: ${upgrades[3].count}</li>
+      </ul>
     `;
   }
 }

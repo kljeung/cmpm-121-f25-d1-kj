@@ -16,10 +16,54 @@ let roaches = 0;
 let growth = 1;
 
 const availableItems = [
-  { id: "egg", name: "Roach Egg", cost: 10, rate: 0.1, count: 0 },
-  { id: "larva", name: "Roach Larva", cost: 10, rate: 1.0, count: 0 },
-  { id: "hoard", name: "Roach Hoard", cost: 100, rate: 2.0, count: 0 },
-  { id: "nest", name: "Roach Nest", cost: 1000, rate: 50, count: 0 },
+  {
+    id: "egg",
+    name: "Roach Egg",
+    cost: 10,
+    rate: 0.1,
+    count: 0,
+    description: "A tiny little rice grain.",
+  },
+  {
+    id: "larva",
+    name: "Roach Larva",
+    cost: 10,
+    rate: 1.0,
+    count: 0,
+    description: "Oh dear, the rice moves.",
+  },
+  {
+    id: "hoard",
+    name: "Roach Hoard",
+    cost: 100,
+    rate: 2.0,
+    count: 0,
+    description: "They begin to infest..",
+  },
+  {
+    id: "nest",
+    name: "Roach Nest",
+    cost: 1000,
+    rate: 50,
+    count: 0,
+    description: "You find them in every crevice.",
+  },
+  {
+    id: "hive",
+    name: "Roach Hive",
+    cost: 5000,
+    rate: 1000,
+    count: 0,
+    description: "They haunt your every waking moment.",
+  },
+  {
+    id: "queen",
+    name: "Roach Queen",
+    cost: 10000,
+    rate: 5000,
+    count: 0,
+    description: "You have accepted your fate. You live amongst them now.",
+  },
 ];
 
 const extraContainer = document.getElementById("extra-upgrades");

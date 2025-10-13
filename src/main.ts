@@ -15,16 +15,16 @@ const output = document.getElementById("output");
 let roaches = 0;
 let growth = 1;
 
-const upgrades = [
-  { id: "A", name: "Roach Egg", cost: 10, rate: 0.1, count: 0 },
-  { id: "B", name: "Roach Larva", cost: 10, rate: 1.0, count: 0 },
-  { id: "C", name: "Roach Hoard", cost: 100, rate: 2.0, count: 0 },
-  { id: "D", name: "Roach Nest", cost: 1000, rate: 50, count: 0 },
+const availableItems = [
+  { id: "egg", name: "Roach Egg", cost: 10, rate: 0.1, count: 0 },
+  { id: "larva", name: "Roach Larva", cost: 10, rate: 1.0, count: 0 },
+  { id: "hoard", name: "Roach Hoard", cost: 100, rate: 2.0, count: 0 },
+  { id: "nest", name: "Roach Nest", cost: 1000, rate: 50, count: 0 },
 ];
 
 const extraContainer = document.getElementById("extra-upgrades");
 if (extraContainer) {
-  upgrades.forEach((u) => {
+  availableItems.forEach((u) => {
     const btn = document.createElement("button");
     btn.id = `upgrade-${u.id}`;
     btn.textContent = `Buy ${u.name} (+${u.rate}/sec) — Cost: ${
@@ -48,14 +48,17 @@ if (extraContainer) {
 const statusDiv = document.getElementById("status");
 
 function getTotalGrowth() {
-  const upgradeGrowth = upgrades.reduce((sum, u) => sum + u.count * u.rate, 0);
+  const upgradeGrowth = availableItems.reduce(
+    (sum, u) => sum + u.count * u.rate,
+    0,
+  );
   return growth + upgradeGrowth;
 }
 
 function refreshUI() {
   if (output) output.textContent = `Roaches invited: ${roaches.toFixed(1)}`;
 
-  upgrades.forEach((u) => {
+  availableItems.forEach((u) => {
     const btn = document.getElementById(`upgrade-${u.id}`);
     if (btn) {
       btn.toggleAttribute("disabled", roaches < u.cost);
@@ -64,21 +67,16 @@ function refreshUI() {
       }`;
     }
   });
-
-  if (upgrade) upgrade.toggleAttribute("disabled", roaches < 10);
-
   if (statusDiv) {
     statusDiv.innerHTML = `
       <p>Growth rate: ${getTotalGrowth().toFixed(2)} roaches/sec</p>
       <p>Upgrades purchased:</p>
       <ul>
-        <li>${upgrades[0].name}: ${upgrades[0].count}</li>
-        <li>${upgrades[1].name}: ${upgrades[1].count}</li>
-        <li>${upgrades[2].name}: ${upgrades[2].count}</li>
-        <li>${upgrades[3].name}: ${upgrades[3].count}</li>
+        ${availableItems.map((u) => `<li>${u.name}: ${u.count}</li>`).join("")}
       </ul>
     `;
   }
+  if (upgrade) upgrade.toggleAttribute("disabled", roaches < 10);
 }
 
 if (button && output) {

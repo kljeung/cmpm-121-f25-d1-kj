@@ -8,7 +8,7 @@
 }
 
 #button:active {
-  transform: scale(1.3);
+  transform: scale(5);
 }
 
 @keyframes shake {

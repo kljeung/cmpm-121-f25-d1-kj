@@ -1,23 +1,121 @@
+/* 
+UI Enhancement inspired by:
+https://github.com/KupoDupo/CMPM-121-D1-Incremental-Game
+
+Animated gradient background inspired by:
+https://github.com/AngelCasta34/cmpm-121-f25-d1-AngelCastaneda
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Sniglet:wght@400&display=swap");
+
 body {
-  font-family: "Arial", sans-serif;
+  font-family: "Sniglet", Arial, sans-serif;
   text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  color: #f3e9d2;
+  overflow: hidden;
+  position: relative;
+
+  /* inspired by AngelCastaneda's floral gradient*/
+  background: linear-gradient(
+    270deg,
+    #1f140a,
+    #3b2d1f,
+    #5d5228,
+    #3a5a2b,
+    #2c4a1f,
+    #1e2815
+  );
+  background-size: 1200% 1200%;
+  animation: floralDrift 50s ease-in-out infinite;
+}
+
+@keyframes floralDrift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* main container inspired by KupoDupo */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  width: 35vw;
+  background-color: #4a3c1f;
+  border: 10px solid #6a5531;
+  border-radius: 24px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  z-index: 1;
+  background-image: radial-gradient(circle at top, #665233 0%, #3b2d1e 100%);
+  color: #f3e9d2;
+}
+
+/* upgrade panel inspired by KupoDupo */
+.items {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  margin: 0;
-  padding: 20px;
-  min-height: 100vh;
-  background: #f0f0f0;
-  color: #333;
+  height: 90vh;
+  width: 25vw;
+  background-color: #4a3c1f;
+  border: 10px solid #6a5531;
+  border-radius: 24px;
+  margin-left: 20px;
+  overflow-y: auto;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+  color: #f7eed9; /* light beige text */
 }
 
+.items::-webkit-scrollbar {
+  width: 6px;
+}
+.items::-webkit-scrollbar-thumb {
+  background-color: #8b7548;
+  border-radius: 10px;
+}
+.items::-webkit-scrollbar-thumb:hover {
+  background-color: #b69a6b;
+}
+.items::-webkit-scrollbar-track {
+  background-color: #3b2d1f;
+}
+
+/* inspired by AngelCastaneda's highlight */
 h1 {
   margin: 10px 0;
   font-size: 2.5rem;
-  color: #222;
+  color: #e9d79f;
+  text-shadow: 2px 2px 3px #2a1d0e;
+  animation: headerBloom 3s ease-in-out infinite alternate;
 }
 
+@keyframes headerBloom {
+  0% {
+    text-shadow: 0 0 4px #c9a441;
+  }
+  100% {
+    text-shadow: 0 0 15px #f6db8b;
+  }
+}
+
+/* my button */
 #roachButton {
   font-size: 10rem;
   cursor: pointer;
@@ -25,13 +123,21 @@ h1 {
   border: none;
   outline: none;
   margin: 20px 0;
-  transition: transform 0.05s;
+  transition: transform 0.05s, filter 0.2s ease;
+  color: #f7eed9;
+  text-shadow: 0 0 5px rgba(255, 222, 173, 0.3);
+}
+
+#roachButton:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
 }
 
 #roachButton:active {
   transform: scale(1.3);
 }
 
+/* my animations */
 @keyframes shake {
   0%, 100% {
     transform: translateX(0);
@@ -43,7 +149,6 @@ h1 {
     transform: translateX(5px);
   }
 }
-
 @keyframes bounce {
   0%, 100% {
     transform: translateY(0);
@@ -52,27 +157,73 @@ h1 {
     transform: translateY(-10px);
   }
 }
-
 .shake {
   animation: shake 0.3s ease-in-out;
 }
-
 .bounce {
   animation: bounce 0.4s ease-out;
 }
 
+/* buttons inspired by KupoDupo */
+button {
+  border-radius: 18px;
+  background-color: #8b7548;
+  border: 3px solid #5d4828;
+  color: #fff8e1;
+  font-family: "Sniglet", system-ui;
+  font-size: 18px;
+  margin-bottom: 5px;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+  background-color: #b69a6b;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background-color: #7a6a4a;
+  border-color: #5c4c2f;
+  color: #c2b89e;
+}
+
+/* upgrade tooltip */
 .upgrade-hover-desc {
   font-size: 0.9em;
-  color: #ccc;
-  background: #222;
+  color: #f3e9d2;
+  background: #3a2d1c;
   padding: 8px;
-  border-radius: 4px;
+  border-radius: 8px;
   margin-top: 4px;
   transition: opacity 0.3s ease;
   opacity: 0;
   pointer-events: none;
+  border: 2px solid #b69a6b;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
-
 .upgrade-item:hover .upgrade-hover-desc {
   opacity: 1;
+}
+
+/* light brown / beige text for upgrade info and stats */
+.upgrade-item p,
+.stats,
+.roach-count,
+#roachCount {
+  color: #f3e9d2;
+}
+
+/* divider */
+hr {
+  border: none;
+  height: 8px;
+  background-color: #6a5531;
+  width: 80%;
+  margin: 15px 0;
+  border-radius: 4px;
 }

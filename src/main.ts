@@ -1,5 +1,13 @@
 import "./style.css";
 
+interface UpgradeItem {
+  id: string;
+  name: string;
+  cost: number;
+  rate: number;
+  count: number;
+  description: string;
+}
 document.body.innerHTML = `
   <h1> Roachfiestation </h1>
   <button id="roachButton">🪳</button>
@@ -15,7 +23,7 @@ const output = document.getElementById("output");
 let roachCount = 0;
 let growth = 1;
 
-const availableItems = [
+const availableItems: UpgradeItem[] = [
   {
     id: "egg",
     name: "Roach Egg",
@@ -120,7 +128,7 @@ function refreshUI() {
   });
   if (statusDiv) {
     statusDiv.innerHTML = `
-      <p>Growth rate: ${getTotalGrowth().toFixed(2)} roachCount/sec</p>
+      <p>Growth rate: ${getTotalGrowth().toFixed(2)} Roaches/sec</p>
       <p>Upgrades purchased:</p>
       <ul>
         ${availableItems.map((u) => `<li>${u.name}: ${u.count}</li>`).join("")}

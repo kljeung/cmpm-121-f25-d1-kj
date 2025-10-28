@@ -2,17 +2,17 @@ import "./style.css";
 
 document.body.innerHTML = `
   <h1> Roachfiestation </h1>
-  <button id="button">🪳</button>
+  <button id="roachButton">🪳</button>
   <div id="extra-upgrades"></div>
-  <div id="output">Roaches invited: 0</div>
+  <div id="output">roachCount invited: 0</div>
   <div id="status"></div>
 `;
 
-const button = document.getElementById("button");
+const roachButton = document.getElementById("roachButton");
 const upgrade = document.getElementById("upgrade");
 const output = document.getElementById("output");
 
-let roaches = 0;
+let roachCount = 0;
 let growth = 1;
 
 const availableItems = [
@@ -71,7 +71,7 @@ if (extraContainer) {
   availableItems.forEach((u) => {
     const itemContainer = document.createElement("div");
     itemContainer.classList.add("upgrade-item");
-    const btn = document.createElement("button");
+    const btn = document.createElement("button") as HTMLButtonElement;
     btn.id = `upgrade-${u.id}`;
     btn.textContent = `Buy ${u.name} (+${u.rate}/sec) — Cost: ${
       u.cost.toFixed(2)
@@ -84,8 +84,8 @@ if (extraContainer) {
     itemContainer.appendChild(desc);
     extraContainer.appendChild(itemContainer);
     btn.addEventListener("click", () => {
-      if (roaches >= u.cost) {
-        roaches -= u.cost;
+      if (roachCount >= u.cost) {
+        roachCount -= u.cost;
         u.count++;
         u.cost = +(u.cost * 1.15).toFixed(2);
         refreshUI();
@@ -105,12 +105,14 @@ function getTotalGrowth() {
 }
 
 function refreshUI() {
-  if (output) output.textContent = `Roaches invited: ${roaches.toFixed(1)}`;
+  if (output) {
+    output.textContent = `roachCount invited: ${roachCount.toFixed(1)}`;
+  }
 
   availableItems.forEach((u) => {
     const btn = document.getElementById(`upgrade-${u.id}`);
     if (btn) {
-      btn.toggleAttribute("disabled", roaches < u.cost);
+      btn.toggleAttribute("disabled", roachCount < u.cost);
       btn.textContent = `Buy ${u.name} (+${u.rate}/sec) — Cost: ${
         u.cost.toFixed(2)
       }`;
@@ -118,31 +120,31 @@ function refreshUI() {
   });
   if (statusDiv) {
     statusDiv.innerHTML = `
-      <p>Growth rate: ${getTotalGrowth().toFixed(2)} roaches/sec</p>
+      <p>Growth rate: ${getTotalGrowth().toFixed(2)} roachCount/sec</p>
       <p>Upgrades purchased:</p>
       <ul>
         ${availableItems.map((u) => `<li>${u.name}: ${u.count}</li>`).join("")}
       </ul>
     `;
   }
-  if (upgrade) upgrade.toggleAttribute("disabled", roaches < 10);
+  if (upgrade) upgrade.toggleAttribute("disabled", roachCount < 10);
 }
 
-if (button && output) {
-  button.addEventListener("click", () => {
-    button.classList.add("shake");
-    button.addEventListener("animationend", () => {
-      button.classList.remove("shake");
+if (roachButton && output) {
+  roachButton.addEventListener("click", () => {
+    roachButton.classList.add("shake");
+    roachButton.addEventListener("animationend", () => {
+      roachButton.classList.remove("shake");
     }, { once: true });
-    roaches++;
+    roachCount++;
     refreshUI();
   });
 }
 
 if (upgrade && output) {
   upgrade.addEventListener("click", () => {
-    if (roaches >= 10) {
-      roaches -= 10;
+    if (roachCount >= 10) {
+      roachCount -= 10;
       growth += 1;
       refreshUI();
     }
@@ -154,7 +156,7 @@ function update(currentTime: number) {
   const elapsed = currentTime - lastTime;
   if (elapsed >= 1000) {
     const ticks = Math.floor(elapsed / 1000);
-    roaches += getTotalGrowth() * ticks;
+    roachCount += getTotalGrowth() * ticks;
     lastTime += ticks * 1000;
     refreshUI();
   }

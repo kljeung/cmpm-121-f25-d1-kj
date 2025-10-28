@@ -1,5 +1,22 @@
 import "./style.css";
 
+document.body.innerHTML = `
+  <h1> Roachfiestation </h1>
+  <button id="roachButton">🪳</button>
+  <div id="extra-upgrades"></div>
+  <div id="output">roachCount invited: 0</div>
+  <div id="status"></div>
+`;
+//dom elements
+const roachButton = document.getElementById("roachButton");
+const upgrade = document.getElementById("upgrade");
+const output = document.getElementById("output");
+
+//game state
+let roachCount = 0;
+let growth = 1;
+
+//upgrade definitions
 interface UpgradeItem {
   id: string;
   name: string;
@@ -8,20 +25,6 @@ interface UpgradeItem {
   count: number;
   description: string;
 }
-document.body.innerHTML = `
-  <h1> Roachfiestation </h1>
-  <button id="roachButton">🪳</button>
-  <div id="extra-upgrades"></div>
-  <div id="output">roachCount invited: 0</div>
-  <div id="status"></div>
-`;
-
-const roachButton = document.getElementById("roachButton");
-const upgrade = document.getElementById("upgrade");
-const output = document.getElementById("output");
-
-let roachCount = 0;
-let growth = 1;
 
 const availableItems: UpgradeItem[] = [
   {
@@ -74,6 +77,7 @@ const availableItems: UpgradeItem[] = [
   },
 ];
 
+//ui construction
 const extraContainer = document.getElementById("extra-upgrades");
 if (extraContainer) {
   availableItems.forEach((u) => {
@@ -104,6 +108,7 @@ if (extraContainer) {
 
 const statusDiv = document.getElementById("status");
 
+//game logic
 function getTotalGrowth() {
   const upgradeGrowth = availableItems.reduce(
     (sum, u) => sum + u.count * u.rate,
@@ -138,6 +143,7 @@ function refreshUI() {
   if (upgrade) upgrade.toggleAttribute("disabled", roachCount < 10);
 }
 
+//event listeners
 if (roachButton && output) {
   roachButton.addEventListener("click", () => {
     roachButton.classList.add("shake");
